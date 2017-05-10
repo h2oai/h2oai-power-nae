@@ -2,6 +2,9 @@
   
   DEBIAN_FRONTEND=noninteractive
 
+  locale-gen en_US.UTF-8
+  update-locale LANG=en_US.UTF-8
+  
   apt-get upgrade -y && \
   apt-get install -y \
     libopenblas-dev \
