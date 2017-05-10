@@ -52,7 +52,12 @@ RUN \
     libcurl4-openssl-dev \
     libtool \
     build-essential \
-    unzip 
+    unzip \
+    pkg-config \
+    libfreetype6-dev \
+    git \
+    libopencv-dev \
+    libcupti-dev
 
 # Install Python Dependancies
 COPY requirements.txt /opt/requirements.txt
@@ -65,13 +70,6 @@ COPY requirements.txt /opt/requirements.txt
 #  ./configure --enable-optimizations && \
 #  make altinstall && \
 #  python3.6 -V
-
-RUN \
-  apt-get install -y \
-    pkg-config \
-    libfreetype6-dev \
-    git \
-    libopencv-dev
 
 RUN \
   /usr/bin/pip3 install --upgrade pip && \
@@ -87,13 +85,14 @@ RUN \
   apt-get clean && \
   rm -rf /var/cache/apt/*
 
+# Build Xgboost
 RUN \
   cd /opt && \
   git clone --recursive https://github.com/dmlc/xgboost && \
   cd xgboost && \
   sed -e 's/-msse2//' -i ./Makefile && \
   cd .. && \
-  cd rabbit && \
+  cd rabit && \
   sed -e 's/-msse2//' -i ./Makefile && \
   cd .. && \
   cd dmlc-core && \
@@ -105,6 +104,7 @@ RUN \
 #  /usr/local/bin/python3.6 setup.py install && \
   /usr/bin/python3 ./setup.py install
 
+# Build mxnet
 RUN \
   cd /opt && \
   git clone --recursive https://github.com/dmlc/mxnet && \
@@ -112,14 +112,15 @@ RUN \
   make -j USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1 && \
   /usr/bin/pip3 install --upgrade graphviz mxnet
 
+# Build Protobuf
 RUN \
   cd /opt && \
   git clone https://github.com/google/protobuf.git && \
   cd protobuf && \
-  git checkout v3.0.0 && \
   ./autogen.sh && ./configure && make && \
   make install
 
+# Build Grpc
 RUN \
   cd /opt && \
   git clone https://github.com/grpc/grpc-java.git && \
@@ -130,6 +131,7 @@ RUN \
   GRPC_BUILD_CMD="../gradlew java_pluginExecutable" && \
   eval $GRPC_BUILD_CMD
 
+# Build Bzael
 RUN \
   cd /opt && \
   git clone https://github.com/bazelbuild/bazel.git && \
@@ -140,13 +142,15 @@ RUN \
   cd output && \
   export PATH=$(pwd):$PATH
 
+# Build Tensorflow
 RUN \
   cd /opt && \
   git clone https://github.com/PPC64/tensorflow.git && \
-  cd tensorflow && \
-  ./configure && \
-  bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
+#  cd tensorflow && \
+#  ./configure && \
+#  bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
 
+# Build py3nvml
 RUN \
   cd /opt && \
   git clone http://github.com/fbcotter/py3nvml && \
@@ -160,8 +164,6 @@ RUN \
   wget https://s3.amazonaws.com/h2o-beta-release/goai/h2oaiglm-0.0.2-py2.py3-none-any.whl && \
   wget http://s3.amazonaws.com/h2o-deepwater/public/nightly/deepwater-h2o-230/h2o-3.11.0.230-py2.py3-none-any.whl && \
   wget https://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/mxnet-0.7.0-py2.7.egg && \
-#  /usr/local/bin/python3.6 -m pip install --upgrade /opt/h2oaiglm-0.0.2-py2.py3-none-any.whl && \
-#  /usr/local/bin/python3.6 -m pip install --upgrade /opt/h2o-3.11.0.230-py2.py3-none-any.whl && \  
   /usr/bin/pip3 install --upgrade /opt/h2oaiglm-0.0.2-py2.py3-none-any.whl && \
   /usr/bin/pip3 install --upgrade /opt/h2o-3.11.0.230-py2.py3-none-any.whl && \
   git clone http://github.com/h2oai/perf
@@ -196,9 +198,7 @@ EXPOSE 12345
 USER nimbix
 
 RUN \
-#  /usr/local/bin/python3.6 -m pip install --user /opt/h2oaiglm-0.0.2-py2.py3-none-any.whl && \
   /usr/bin/pip3 install --upgrade --user /opt/h2oaiglm-0.0.2-py2.py3-none-any.whl && \
-#  /usr/local/bin/python3.6 -m pip install --user /opt/h2o-3.11.0.230-py2.py3-none-any.whl && \
   /usr/bin/pip3 install --upgrade --user /opt/h2o-3.11.0.230-py2.py3-none-any.whl && \
   rm -f /opt/*.whl
 
