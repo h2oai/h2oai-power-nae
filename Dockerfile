@@ -33,23 +33,24 @@ ENV CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
 
 # Install H2o dependancies
 RUN \
+  apt-get upgrade -y && \
   apt-get install -y \
-  libopenblas-dev \
-  libatlas-base-dev \
-  python3-pip \
-  python3-dev \
-  python3-dev \
-  python3-wheel \
-  nodejs \
-  libgtk2.0-0 \
-  dirmngr \
-  libpng-dev \
-  zlib1g-dev \
-  dpkg-dev \
-  automake \
-  autoconf \
-  libcurl4-openssl-dev \
-  unzip 
+    libopenblas-dev \
+    libatlas-base-dev \
+    python3-pip \
+    python3-dev \
+    python3-dev \
+    python3-wheel \
+    nodejs \
+    libgtk2.0-0 \
+    dirmngr \
+    libpng-dev \
+    zlib1g-dev \
+    dpkg-dev \
+    automake \
+    autoconf \
+    libcurl4-openssl-dev \
+    unzip 
 
 # Install Python Dependancies
 COPY requirements.txt /opt/h2oai/requirements.txt
@@ -109,7 +110,7 @@ RUN \
   git clone https://github.com/PPC64/tensorflow.git && \
   cd tensorflow && \
   ./configure && \
-  bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
+  bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
 
 RUN \
   cd /opt && \
