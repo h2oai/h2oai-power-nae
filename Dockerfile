@@ -95,6 +95,7 @@ RUN \
   sed -e 's/-msse2//' -i Makefile && \
   cd .. & \
   make -j4 && \
+  make install && \
   cd python-package && \
   /usr/local/bin/python3.6 setup.py install && \
   /usr/bin/python3 setup.py install
