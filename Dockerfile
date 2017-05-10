@@ -68,7 +68,8 @@ RUN \
   apt-get install -y \
     pkg-config \
     libfreetype6-dev \
-    git
+    git \
+    libopencv-dev
 
 RUN \
   /usr/bin/pip3 install --upgrade pip && \
@@ -89,6 +90,7 @@ RUN \
   git clone --recursive https://github.com/dmlc/xgboost && \
   cd xgboost && \
   sed -e 's/-msse2//' -i Makefile && \
+  cd .. && \
   cd rabbit && \
   sed -e 's/-msse2//' -i Makefile && \
   cd .. && \
@@ -99,7 +101,14 @@ RUN \
   make install && \
   cd python-package && \
 #  /usr/local/bin/python3.6 setup.py install && \
-  /usr/bin/python3 setup.py install
+  /usr/bin/python3 ./setup.py install
+
+RUN \
+  cd /opt && \
+  git clone --recursive https://github.com/dmlc/mxnet && \
+  cd mxnet && \
+  make -j USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1 && \
+  /usr/bin/pip3 install --upgrade graphviz mxnet
 
 RUN \
   cd /opt && \
