@@ -23,5 +23,4 @@ sklearn==0.0
 tornado==4.4.2
 transitions==0.4.3
 xgbfir==0.2
-xgboost==0.6a2
 xlrd==1.0.0
