@@ -1,4 +1,7 @@
 #!/bin/bash
+  
+  DEBIAN_FRONTEND=noninteractive
+
   apt-get upgrade -y && \
   apt-get install -y \
     libopenblas-dev \
@@ -20,7 +23,7 @@
 
   mkdir /opt/h2oai
   cd /opt
-  wget http://github.com/h2oai/h2oai-power-nae/requirements.txt
+  wget https://raw.githubusercontent.com/h2oai/h2oai-power-nae/master/requirements.txt
 
   apt-get install -y \
     pkg-config \
