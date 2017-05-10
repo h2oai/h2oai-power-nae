@@ -22,10 +22,14 @@ RUN \
   echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" | sudo tee -a /etc/apt/sources.list && \
   gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 && \
   gpg -a --export E084DAB9 | apt-key add -&& \
-  add-apt-repository -y ppa:webupd8team/java && \
+  add-apt-repository -y ppa:openjdk-r/ppa && \
   apt-get update -yqq && \
   echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
   echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
+
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-ppc64el
+ENV JRE_HOME=${JAVA_HOME}/jre
+ENV CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
 
 # Install H2o dependancies
 RUN \
@@ -34,17 +38,24 @@ RUN \
   libatlas-base-dev \
   python3-pip \
   python3-dev \
+  python3-dev \
+  python3-wheel \
   nodejs \
   libgtk2.0-0 \
   dirmngr \
   libpng-dev \
   zlib1g-dev \
-  dpkg-dev 
+  dpkg-dev \
+  automake \
+  autoconf \
+  libcurl4-openssl-dev \
+  unzip 
 
 # Install Python Dependancies
 COPY requirements.txt /opt/h2oai/requirements.txt
 
 RUN \
+  cd /opt && \
   wget https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tgz && \
   tar -zxvf Python-3.6.1.tgz && \
   cd Python-3.6.1 && \
@@ -54,30 +65,51 @@ RUN \
 
 RUN \
   /usr/bin/pip3 install --upgrade pip && \
-#  /usr/bin/pip3 install --upgrade numpy && \
+  /usr/bin/pip3 install --upgrade numpy && \
   /usr/bin/pip3 install --upgrade cython && \
-#  /usr/bin/pip3 install --upgrade setuptools && \
-#  /usr/bin/pip3 install --upgrade pandas && \
-# /usr/bin/pip3 install --upgrade tensorflow-gpu && \
-#  /usr/bin/pip3 install --upgrade keras && \
-#  /usr/bin/pip3 install --upgrade graphviz && \
   /usr/bin/pip3 install -r /opt/h2oai/requirements.txt && \
-#  /usr/bin/pip3 install --upgrade psutil && \
   /usr/local/bin/python3.6 -m pip install --upgrade pip && \
-#  /usr/local/bin/python3.6 -m pip install --upgrade setuptools && \
-#  /usr/local/bin/python3.6 -m pip install --upgrade python-dateutil && \
-# /usr/local/bin/python3.6 -m pip install --upgrade numpy && \
+  /usr/local/bin/python3.6 -m pip install --upgrade numpy && \
   /usr/local/bin/python3.6 -m pip install --upgrade cython && \
-#  /usr/local/bin/python3.6 -m pip install --upgrade tensorflow-gpu && \
-#  /usr/local/bin/python3.6 -m pip install --upgrade keras && \
-#  /usr/local/bin/python3.6 -m pip install --upgrade graphviz && \
   /usr/local/bin/python3.6 -m pip install -r /opt/h2oai/requirements.txt && \
-#  /usr/local/bin/python3.6 -m pip install --upgrade pandas && \
-#  /usr/local/bin/python3.6 -m pip install --upgrade psutil && \
-#  /usr/local/bin/python3.6 -m pip install --upgrade pycuda && \
   /usr/local/bin/python3.6 -m pip install --upgrade notebook && \
   apt-get clean && \
   rm -rf /var/cache/apt/*
+
+RUN \
+  cd /opt && \
+  git clone https://github.com/google/protobuf.git && \
+  cd protobuf && \
+  git checkout v3.0.0 && \
+  ./autogen.sh && ./configure && make && \
+  make install
+
+RUN \
+  cd /opt && \
+  git clone https://github.com/grpc/grpc-java.git && \
+  cd grpc-java && \
+  git checkout v1.0.0 && \
+  export CXXFLAGS="-I /opt/protobuf/src" LDFLAGS="-L /opt/protobuf/src/.libs" && \
+  cd compiler && \
+  GRPC_BUILD_CMD="../gradlew java_pluginExecutable" && \
+  eval $GRPC_BUILD_CMD
+
+RUN \
+  cd /opt && \
+  git clone https://github.com/bazelbuild/bazel.git && \
+  cd bazel && \
+  export PROTOC=/opt/protobuf/src/protoc && \
+  export GRPC_JAVA_PLUGIN=/opt/grpc-java/compiler/build/exe/java_plugin/protoc-gen-grpc-java && \
+  ./compile.sh && \
+  cd output && \
+  export PATH=$(pwd):$PATH
+
+RUN \
+  cd /opt && \
+  git clone https://github.com/PPC64/tensorflow.git && \
+  cd tensorflow && \
+  ./configure && \
+  bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
 
 RUN \
   cd /opt && \
