@@ -53,7 +53,7 @@ RUN \
     unzip 
 
 # Install Python Dependancies
-COPY requirements.txt /opt/h2oai/requirements.txt
+COPY requirements.txt /opt/requirements.txt
 
 #RUN \
 #  cd /opt && \
@@ -76,7 +76,7 @@ RUN \
   /usr/bin/pip3 install --upgrade numpy && \
   /usr/bin/pip3 install --upgrade cython && \
   /usr/bin/pip3 install --upgrade scipy && \
-  /usr/bin/pip3 install -r /opt/h2oai/requirements.txt && \ 
+  /usr/bin/pip3 install -r /opt/requirements.txt && \ 
 # /usr/local/bin/python3.6 -m pip install --upgrade pip && \
 # /usr/local/bin/python3.6 -m pip install --upgrade numpy && \
 # /usr/local/bin/python3.6 -m pip install --upgrade cython && \
@@ -96,7 +96,7 @@ RUN \
   cd .. && \
   cd dmlc-core && \
   sed -e 's/-msse2//' -i ./Makefile && \
-  cd .. & \
+  cd .. && \
   make -j4 && \
   make install && \
   cd python-package && \
