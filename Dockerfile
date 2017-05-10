@@ -22,7 +22,6 @@ RUN \
   echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" | sudo tee -a /etc/apt/sources.list && \
   gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 && \
   gpg -a --export E084DAB9 | apt-key add -&& \
-  add-apt-repository ppa:fkrull/deadsnakes  && \
   add-apt-repository -y ppa:webupd8team/java && \
   apt-get update -yqq && \
   echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
@@ -33,8 +32,6 @@ RUN \
   apt-get install -y \
   libopenblas-dev \
   libatlas-base-dev \
-  python3.6 \
-  python3.6-dev \
   python3-pip \
   python3-dev \
   nodejs \
@@ -43,6 +40,14 @@ RUN \
 
 # Install Python Dependancies
 COPY requirements.txt /opt/h2oai/requirements.txt
+
+RUN \
+  wget https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tgz && \
+  tar -zxvf Python-3.6.1.tgz && \
+  cd Python-3.6.1 && \
+  ./configure && \
+  make altinstall && \
+  python3.6 -V
 
 RUN \
   /usr/bin/pip3 install --upgrade pip && \
