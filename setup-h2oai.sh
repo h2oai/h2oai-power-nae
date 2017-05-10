@@ -38,7 +38,7 @@
   /usr/bin/pip3 install --upgrade numpy && \
   /usr/bin/pip3 install --upgrade cython && \
   /usr/bin/pip3 install --upgrade scipy && \
-  /usr/bin/pip3 install -r /opt/h2oai/requirements.txt && \ 
+  /usr/bin/pip3 install -r /opt/requirements.txt && \ 
   apt-get clean && \
   rm -rf /var/cache/apt/*
 
