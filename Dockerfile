@@ -67,7 +67,8 @@ RUN \
 RUN \
   apt-get install -y \
     pkg-config \
-    libfreetype6-dev
+    libfreetype6-dev \
+    git
 
 RUN \
   /usr/bin/pip3 install --upgrade pip && \
@@ -81,6 +82,22 @@ RUN \
   /usr/local/bin/python3.6 -m pip install --upgrade notebook && \
   apt-get clean && \
   rm -rf /var/cache/apt/*
+
+RUN \
+  cd /opt && \
+  git clone --recursive https://github.com/dmlc/xgboost && \
+  cd xgboost && \
+  sed -e 's/-msse2//' -i Makefile && \
+  cd rabbit && \
+  sed -e 's/-msse2//' -i Makefile && \
+  cd .. && \
+  cd dmlc-core && \
+  sed -e 's/-msse2//' -i Makefile && \
+  cd .. & \
+  make -j4 && \
+  cd python-package && \
+  /usr/local/bin/python3.6 setup.py install && \
+  /usr/bin/python3 setup.py install
 
 RUN \
   cd /opt && \
