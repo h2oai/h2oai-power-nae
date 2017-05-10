@@ -89,7 +89,7 @@ RUN \
   /usr/bin/pip3 install --upgrade /opt/h2o-3.11.0.230-py2.py3-none-any.whl && \
   git clone http://github.com/h2oai/perf
   
-ADD h2oai /opt/h2oai
+#ADD h2oai /opt/h2oai
 
 RUN \
   cd /opt && \
