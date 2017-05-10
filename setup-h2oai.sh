@@ -5,6 +5,7 @@
   locale-gen en_US.UTF-8
   update-locale LANG=en_US.UTF-8
   
+  apt-get update && \
   apt-get upgrade -y && \
   apt-get install -y \
     libopenblas-dev \
@@ -22,17 +23,17 @@
     automake \
     autoconf \
     libcurl4-openssl-dev \
-    unzip 
-
-  mkdir /opt/h2oai
-  cd /opt
-  wget https://raw.githubusercontent.com/h2oai/h2oai-power-nae/master/requirements.txt
-
-  apt-get install -y \
+    unzip \
+    libtool \
     pkg-config \
     libfreetype6-dev \
     git \
     libopencv-dev
+    
+
+  mkdir /opt/h2oai
+  cd /opt
+  wget https://raw.githubusercontent.com/h2oai/h2oai-power-nae/master/requirements.txt
 
   /usr/bin/pip3 install --upgrade pip && \
   /usr/bin/pip3 install --upgrade numpy && \
@@ -47,7 +48,7 @@
   cd xgboost && \
   sed -e 's/-msse2//' -i ./Makefile && \
   cd .. && \
-  cd rabbit && \
+  cd rabit && \
   sed -e 's/-msse2//' -i ./Makefile && \
   cd .. && \
   cd dmlc-core && \
@@ -67,7 +68,6 @@
   cd /opt && \
   git clone https://github.com/google/protobuf.git && \
   cd protobuf && \
-  git checkout v3.0.0 && \
   ./autogen.sh && ./configure && make && \
   make install
 

@@ -50,6 +50,8 @@ RUN \
     automake \
     autoconf \
     libcurl4-openssl-dev \
+    libtool \
+    build-essential \
     unzip 
 
 # Install Python Dependancies
