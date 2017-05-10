@@ -52,7 +52,7 @@
   cd .. && \
   cd dmlc-core && \
   sed -e 's/-msse2//' -i ./Makefile && \
-  cd .. & \
+  cd .. && \
   make -j4 && \
   make install && \
   cd python-package && \
