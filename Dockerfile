@@ -36,7 +36,10 @@ RUN \
   python3-dev \
   nodejs \
   libgtk2.0-0 \
-  dirmngr 
+  dirmngr \
+  libpng-dev \
+  zlib1g-dev \
+  dpkg-dev 
 
 # Install Python Dependancies
 COPY requirements.txt /opt/h2oai/requirements.txt
@@ -45,7 +48,7 @@ RUN \
   wget https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tgz && \
   tar -zxvf Python-3.6.1.tgz && \
   cd Python-3.6.1 && \
-  ./configure && \
+  ./configure --enable-optimizations && \
   make altinstall && \
   python3.6 -V
 
