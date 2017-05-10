@@ -30,6 +30,7 @@ RUN \
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-ppc64el
 ENV JRE_HOME=${JAVA_HOME}/jre
 ENV CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
 # Install H2o dependancies
 RUN \
@@ -88,15 +89,13 @@ RUN \
 RUN \
   cd /opt && \
   git clone --recursive https://github.com/dmlc/xgboost && \
-  cd xgboost && \
+  cd /opt/xgboost && \
   sed -e 's/-msse2//' -i ./Makefile && \
-  cd .. && \
-  cd rabit && \
+  cd /opt/xgboost/rabit && \
   sed -e 's/-msse2//' -i ./Makefile && \
-  cd .. && \
-  cd dmlc-core && \
+  cd /opt/xgboost/dmlc-core && \
   sed -e 's/-msse2//' -i ./Makefile && \
-  cd .. && \
+  cd /opt/xgboost && \
   make -j4 && \
   make install && \
   cd python-package && \
@@ -104,18 +103,18 @@ RUN \
   /usr/bin/python3 ./setup.py install
 
 # Build mxnet
-RUN \
-  cd /opt && \
-  git clone --recursive https://github.com/dmlc/mxnet && \
-  cd mxnet && \
-  make -j USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1 && \
-  /usr/bin/pip3 install --upgrade graphviz mxnet
+#RUN \
+#  cd /opt && \
+#  git clone --recursive https://github.com/dmlc/mxnet && \
+#  cd /opt/mxnet && \
+#  make -j USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1 && \
+#  /usr/bin/pip3 install --upgrade graphviz mxnet
 
 # Build Protobuf
 RUN \
   cd /opt && \
   git clone https://github.com/google/protobuf.git && \
-  cd protobuf && \
+  cd /opt/protobuf && \
   ./autogen.sh && ./configure && make && \
   make install
 
@@ -123,22 +122,22 @@ RUN \
 RUN \
   cd /opt && \
   git clone https://github.com/grpc/grpc-java.git && \
-  cd grpc-java && \
+  cd /opt/grpc-java && \
   git checkout v1.0.0 && \
   export CXXFLAGS="-I /opt/protobuf/src" LDFLAGS="-L /opt/protobuf/src/.libs" && \
-  cd compiler && \
+  cd /opt/grpc-java/compiler && \
   GRPC_BUILD_CMD="../gradlew java_pluginExecutable" && \
   eval $GRPC_BUILD_CMD
 
-# Build Bzael
+# Build Bazel
 RUN \
   cd /opt && \
   git clone https://github.com/bazelbuild/bazel.git && \
-  cd bazel && \
+  cd /opt/bazel && \
   export PROTOC=/opt/protobuf/src/protoc && \
   export GRPC_JAVA_PLUGIN=/opt/grpc-java/compiler/build/exe/java_plugin/protoc-gen-grpc-java && \
   ./compile.sh && \
-  cd output && \
+  cd /opt/bazel/output && \
   export PATH=$(pwd):$PATH
 
 # Build Tensorflow
