@@ -54,26 +54,27 @@ RUN \
 
 RUN \
   /usr/bin/pip3 install --upgrade pip && \
-  /usr/bin/pip3 install --upgrade numpy && \
+#  /usr/bin/pip3 install --upgrade numpy && \
   /usr/bin/pip3 install --upgrade cython && \
-  /usr/bin/pip3 install --upgrade pandas && \
-  /usr/bin/pip3 install --upgrade tensorflow-gpu && \
-  /usr/bin/pip3 install --upgrade keras && \
-  /usr/bin/pip3 install --upgrade graphviz && \
+#  /usr/bin/pip3 install --upgrade setuptools && \
+#  /usr/bin/pip3 install --upgrade pandas && \
+# /usr/bin/pip3 install --upgrade tensorflow-gpu && \
+#  /usr/bin/pip3 install --upgrade keras && \
+#  /usr/bin/pip3 install --upgrade graphviz && \
   /usr/bin/pip3 install -r /opt/h2oai/requirements.txt && \
-  /usr/bin/pip3 install --upgrade psutil && \
+#  /usr/bin/pip3 install --upgrade psutil && \
   /usr/local/bin/python3.6 -m pip install --upgrade pip && \
-  /usr/local/bin/python3.6 -m pip install --upgrade setuptools && \
-  /usr/local/bin/python3.6 -m pip install --upgrade python-dateutil && \
-  /usr/local/bin/python3.6 -m pip install --upgrade numpy && \
+#  /usr/local/bin/python3.6 -m pip install --upgrade setuptools && \
+#  /usr/local/bin/python3.6 -m pip install --upgrade python-dateutil && \
+# /usr/local/bin/python3.6 -m pip install --upgrade numpy && \
   /usr/local/bin/python3.6 -m pip install --upgrade cython && \
-  /usr/local/bin/python3.6 -m pip install --upgrade tensorflow-gpu && \
-  /usr/local/bin/python3.6 -m pip install --upgrade keras && \
-  /usr/local/bin/python3.6 -m pip install --upgrade graphviz && \
+#  /usr/local/bin/python3.6 -m pip install --upgrade tensorflow-gpu && \
+#  /usr/local/bin/python3.6 -m pip install --upgrade keras && \
+#  /usr/local/bin/python3.6 -m pip install --upgrade graphviz && \
   /usr/local/bin/python3.6 -m pip install -r /opt/h2oai/requirements.txt && \
-  /usr/local/bin/python3.6 -m pip install --upgrade pandas && \
-  /usr/local/bin/python3.6 -m pip install --upgrade psutil && \
-  /usr/local/bin/python3.6 -m pip install --upgrade pycuda && \
+#  /usr/local/bin/python3.6 -m pip install --upgrade pandas && \
+#  /usr/local/bin/python3.6 -m pip install --upgrade psutil && \
+#  /usr/local/bin/python3.6 -m pip install --upgrade pycuda && \
   /usr/local/bin/python3.6 -m pip install --upgrade notebook && \
   apt-get clean && \
   rm -rf /var/cache/apt/*
