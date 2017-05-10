@@ -56,8 +56,7 @@ RUN \
     pkg-config \
     libfreetype6-dev \
     git \
-    libopencv-dev \
-    libcupti-dev
+    libopencv-dev
 
 # Install Python Dependancies
 COPY requirements.txt /opt/requirements.txt
