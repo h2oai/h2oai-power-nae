@@ -65,6 +65,11 @@ RUN \
   python3.6 -V
 
 RUN \
+  apt-get install -y \
+    pkg-config \
+    libfreetype6-dev
+
+RUN \
   /usr/bin/pip3 install --upgrade pip && \
   /usr/bin/pip3 install --upgrade numpy && \
   /usr/bin/pip3 install --upgrade cython && \
