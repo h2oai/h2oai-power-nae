@@ -182,7 +182,7 @@ COPY scripts/run-benchmark.sh /opt/run-benchmark.sh
 COPY scripts/start-h2oai.sh /opt/start-h2oai.sh
 COPY scripts/start-notebook.sh /opt/start-notebook.sh
 COPY scripts/cuda.sh /etc/profile.d/cuda.sh
-COPY scripts/java/sh /etc/profile.d/java.sh
+COPY scripts/java.sh /etc/profile.d/java.sh
 #COPY scripts/bazel.sh /etc/profile.d/bazel.sh
 
 # Set executable on scripts
