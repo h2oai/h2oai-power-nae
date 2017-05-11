@@ -56,14 +56,11 @@ RUN \
     libfreetype6-dev \
     git \
     libopencv-dev \
-    openjdk-8-jdk \
-    cuda \
-    cuda-toolkit-8-0 \
-    libcudnn5-dev \
-    libcudnn6-dev
+    openjdk-8-jdk
 
 # Install Python Dependancies
 COPY requirements.txt /opt/requirements.txt
+COPY conf/cuda.conf /etc/ld.so.conf.d/cuda.conf
 
 #RUN \
 #  cd /opt && \
