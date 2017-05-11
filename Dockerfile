@@ -86,29 +86,28 @@ RUN \
   rm -rf /var/cache/apt/*
 
 # Build Xgboost
-#RUN \
-#  cd /opt && \
-#  git clone --recursive https://github.com/dmlc/xgboost && \
-#  cd /opt/xgboost && \
-#  sed -e 's/-msse2//' -i ./Makefile && \
-#  cd /opt/xgboost/rabit && \
-#  sed -e 's/-msse2//' -i ./Makefile && \
-#  cd /opt/xgboost/dmlc-core && \
-#  sed -e 's/-msse2//' -i ./Makefile && \
-#  cd /opt/xgboost && \
-#  make -j4 && \
-#  make install && \
-#  cd python-package && \
-#  /usr/local/bin/python3.6 setup.py install && \
-#  /usr/bin/python3 ./setup.py install
+RUN \
+  cd /opt && \
+  git clone --recursive https://github.com/dmlc/xgboost && \
+  cd /opt/xgboost && \
+  sed -e 's/-msse2//' -i ./Makefile && \
+  cd /opt/xgboost/rabit && \
+  sed -e 's/-msse2//' -i ./Makefile && \
+  cd /opt/xgboost/dmlc-core && \
+  sed -e 's/-msse2//' -i ./Makefile && \
+  cd /opt/xgboost && \
+  make -j4 && \
+  make install && \
+  cd python-package && \
+  /usr/bin/python3 ./setup.py install
 
 # Build mxnet
-#RUN \
-#  cd /opt && \
-#  git clone --recursive https://github.com/dmlc/mxnet && \
-#  cd /opt/mxnet && \
-#  make -j USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1 && \
-#  /usr/bin/pip3 install --upgrade graphviz mxnet
+RUN \
+  cd /opt && \
+  git clone --recursive https://github.com/dmlc/mxnet && \
+  cd /opt/mxnet && \
+  make -j USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1 && \
+  /usr/bin/pip3 install --upgrade graphviz mxnet
 
 # Build Protobuf
 #RUN \
@@ -152,11 +151,11 @@ RUN \
 #  bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
 
 # Build py3nvml
-#RUN \
-#  cd /opt && \
-#  git clone http://github.com/fbcotter/py3nvml && \
-#  cd py3nvml && \
-#  /usr/bin/python3 setup.py install
+RUN \
+  cd /opt && \
+  git clone http://github.com/fbcotter/py3nvml && \
+  cd py3nvml && \
+  /usr/bin/python3 setup.py install
 
 # Install H2o
 RUN \
