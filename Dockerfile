@@ -28,7 +28,10 @@ RUN \
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-ppc64el
 ENV JRE_HOME /usr/lib/jvm/java-8-openjdk-ppc64el/jre
 ENV CLASSPATH /usr/lib/jvm/java-8-openjdk-ppc64el/lib:/usr/lib/jvm/java-8-openjdk-ppc64el/jre/lib
-ENV LD_LIBRARY_PATH /usr/local/cuda/lib64:/usr/local/cuda/lib64/stubs:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH /usr/local/cuda/lib64:/usr/local/cuda/lib64/stubs:/usr/local/cuda/lib64:/usr/local/cuda/lib:$LD_LIBRARY_PATH
+ENV PATH /usr/local/cuda/bin:$PATH
+ENV LIBRARY_PATH /usr/local/cuda/lib64:/usr/local/cuda/lib64/stubs
+ENV LPATH /usr/local/cuda
 
 # Install H2o dependancies
 RUN \
