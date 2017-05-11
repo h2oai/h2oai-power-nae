@@ -23,14 +23,12 @@ RUN \
   gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 && \
   gpg -a --export E084DAB9 | apt-key add -&& \
   add-apt-repository -y ppa:openjdk-r/ppa && \
-  apt-get update -yqq && \
-  echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
+  apt-get update -yqq
 
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-ppc64el
-ENV JRE_HOME=${JAVA_HOME}/jre
-ENV CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-ppc64el
+ENV JRE_HOME /usr/lib/jvm/java-8-openjdk-ppc64el/jre
+ENV CLASSPATH=.:/usr/lib/jvm/java-8-openjdk-ppc64el/lib:/usr/lib/jvm/java-8-openjdk-ppc64el/jre/lib
+ENV LD_LIBRARY_PATH /usr/local/cuda/lib64:/usr/local/cuda/lib64/stubs:$LD_LIBRARY_PATH
 
 # Install H2o dependancies
 RUN \
@@ -57,7 +55,12 @@ RUN \
     pkg-config \
     libfreetype6-dev \
     git \
-    libopencv-dev
+    libopencv-dev \
+    openjdk-8-jdk \
+    cuda \
+    cuda-toolkit-8-0 \
+    libcudnn5-dev \
+    libcudnn6-dev
 
 # Install Python Dependancies
 COPY requirements.txt /opt/requirements.txt
