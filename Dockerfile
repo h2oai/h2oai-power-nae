@@ -76,6 +76,7 @@ RUN \
   /usr/bin/pip3 install --upgrade numpy && \
   /usr/bin/pip3 install --upgrade cython && \
   /usr/bin/pip3 install --upgrade scipy && \
+  /usr/bin/pip3 install --upgrade psutil && \
   /usr/bin/pip3 install -r /opt/requirements.txt && \ 
 # /usr/local/bin/python3.6 -m pip install --upgrade pip && \
 # /usr/local/bin/python3.6 -m pip install --upgrade numpy && \
@@ -90,7 +91,6 @@ RUN \
   cd /opt && \
   wget https://s3.amazonaws.com/h2o-beta-release/ppc64le/xgboost-0.6-py35-none-any.whl && \
   /usr/bin/pip3 install /opt/xgboost-0.6-py35-none-any.whl
-
 
 # Install mxnet
 RUN \
@@ -171,7 +171,6 @@ COPY scripts/run-benchmark.sh /opt/run-benchmark.sh
 COPY scripts/start-h2oai.sh /opt/start-h2oai.sh
 COPY scripts/start-notebook.sh /opt/start-notebook.sh
 COPY scripts/java.sh /etc/profile.d/java.sh
-#COPY scripts/bazel.sh /etc/profile.d/bazel.sh
 
 # Set executable on scripts
 RUN \
