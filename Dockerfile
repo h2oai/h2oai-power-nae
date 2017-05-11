@@ -88,20 +88,19 @@ RUN \
   apt-get clean && \
   rm -rf /var/cache/apt/*
 
-# Build Xgboost
+# Install Xgboost
 RUN \
   cd /opt && \
   wget https://s3.amazonaws.com/h2o-beta-release/ppc64le/xgboost-0.6-py35-none-any.whl && \
   /usr/bin/pip3 install /opt/xgboost-0.6-py35-none-any.whl
 
 
-# Build mxnet
+# Install mxnet
 RUN \
   cd /opt && \
-  git clone --recursive https://github.com/dmlc/mxnet && \
-  cd /opt/mxnet && \
-  make -j USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1 && \
-  /usr/bin/pip3 install --upgrade graphviz
+  wget https://s3.amazonaws.com/h2o-beta-release/ppc64le/mxnet-0.9.5-py35-none-any.whl && \
+  /usr/bin/pip3 install /opt/mxnet-0.9.5-py35-none-any.whl && \
+  /usr/bin/pip3 install graphviz 
 
 # Build Protobuf
 #RUN \
