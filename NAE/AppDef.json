@@ -44,7 +44,16 @@
             "interactive": true,
             "name": "H2o-3",
             "description": "Run the H2o Server",
-            "parameters": {}
+            "parameters": {
+              "-s": {
+                    "name": "-s",
+                    "description": "-s",
+                    "type": "CONST",
+                    "value": "/opt/DL/tensorflow/bin/tensorflow-activate",
+                    "positional": false,
+                    "required": true
+                }
+              }
         },
       "Jupyter": {
             "path":"/opt/start-notebook.sh",
@@ -52,14 +61,22 @@
             "name": "Jupyter Notebook",
             "description": "Launch Jupyter Notebook, ssh tunnel to get secure access, ex: ssh -L 8888:localhost:8888 nimbix@<public_ip>",
             "parameters": {
-                "-r": {
+              "-s": {
+                    "name": "-s",
+                    "description": "-s",
+                    "type": "CONST",
+                    "value": "/opt/DL/tensorflow/bin/tensorflow-activate",
+                    "positional": false,
+                    "required": true
+              },  
+              "-r": {
                     "name": "Requirements file",
                     "description": "Select a text file to use as a list of pip requirements (e.g. requirements.txt)",
                     "type": "FILE",
                     "positional": false,
                     "required": false,
                     "filter": "*.txt"
-                }
+              }
             }
         },          
       "SSH": {

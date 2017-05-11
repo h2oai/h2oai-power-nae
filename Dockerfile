@@ -1,4 +1,5 @@
-FROM nimbix/ubuntu-cuda-ppc64le:latest
+#FROM nimbix/ubuntu-cuda-ppc64le:latest
+FROM jarvice/ubuntu-ibm-mldl-ppc64le 
 MAINTAINER H2o.ai <ops@h2o.ai>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -19,9 +20,6 @@ RUN \
 
 # Setup Repos
 RUN \
-  echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" | sudo tee -a /etc/apt/sources.list && \
-  gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 && \
-  gpg -a --export E084DAB9 | apt-key add -&& \
   add-apt-repository -y ppa:openjdk-r/ppa && \
   apt-get update -yqq
 
@@ -63,7 +61,6 @@ RUN \
 
 # Install Python Dependancies
 COPY requirements.txt /opt/requirements.txt
-COPY conf/cuda.conf /etc/ld.so.conf.d/cuda.conf
 
 #RUN \
 #  cd /opt && \
