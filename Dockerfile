@@ -88,17 +88,9 @@ RUN \
 # Build Xgboost
 RUN \
   cd /opt && \
-  git clone --recursive https://github.com/dmlc/xgboost && \
-  cd /opt/xgboost && \
-  sed -e 's/-msse2//' -i Makefile && \
-  cd /opt/xgboost/rabit && \
-  sed -e 's/-msse2//' -i Makefile && \
-  cd /opt/xgboost/dmlc-core && \
-  sed -e 's/-msse2//' -i Makefile && \
-  cd /opt/xgboost && \
-  make -j4 && \
-  cd python-package && \
-  /usr/bin/python3 ./setup.py install
+  wget https://s3.amazonaws.com/h2o-beta-release/ppc64le/xgboost-0.6-py35-none-any.whl && \
+  /usr/bin/pip3 install /opt/xgboost-0.6-py35-none-any.whl
+
 
 # Build mxnet
 RUN \
@@ -179,7 +171,6 @@ COPY scripts/start-h2o.sh /opt/start-h2o.sh
 COPY scripts/run-benchmark.sh /opt/run-benchmark.sh
 COPY scripts/start-h2oai.sh /opt/start-h2oai.sh
 COPY scripts/start-notebook.sh /opt/start-notebook.sh
-COPY scripts/cuda.sh /etc/profile.d/cuda.sh
 COPY scripts/java.sh /etc/profile.d/java.sh
 #COPY scripts/bazel.sh /etc/profile.d/bazel.sh
 
