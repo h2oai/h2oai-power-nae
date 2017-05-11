@@ -111,39 +111,42 @@ RUN \
 #  /usr/bin/pip3 install --upgrade graphviz mxnet
 
 # Build Protobuf
-RUN \
-  cd /opt && \
-  git clone https://github.com/google/protobuf.git && \
-  cd /opt/protobuf && \
-  ./autogen.sh && ./configure && make && \
-  make install
+#RUN \
+#  cd /opt && \
+#  git clone https://github.com/google/protobuf.git && \
+#  cd /opt/protobuf && \
+#  git config user.email "ops@h2o.ai" && \
+#  git config user.name "ops@h2oai" && \
+#  git checkout v3.0.0 && \
+#  git git cherry-pick 1760feb621a913189b90fe8595fffb74bce84598 && \
+#  ./autogen.sh && ./configure && make
 
 # Build Grpc
-RUN \
-  cd /opt && \
-  git clone https://github.com/grpc/grpc-java.git && \
-  cd /opt/grpc-java && \
-  git checkout v1.0.0 && \
-  export CXXFLAGS="-I /opt/protobuf/src" LDFLAGS="-L /opt/protobuf/src/.libs" && \
-  cd /opt/grpc-java/compiler && \
-  GRPC_BUILD_CMD="../gradlew java_pluginExecutable" && \
-  eval $GRPC_BUILD_CMD
+#RUN \
+#  cd /opt && \
+#  git clone https://github.com/grpc/grpc-java.git && \
+#  cd /opt/grpc-java && \
+#  git checkout v1.0.0 && \
+#  export CXXFLAGS="-I /opt/protobuf/src" LDFLAGS="-L /opt/protobuf/src/.libs" && \
+#  cd /opt/grpc-java/compiler && \
+#  GRPC_BUILD_CMD="../gradlew java_pluginExecutable" && \
+#  eval $GRPC_BUILD_CMD
 
 # Build Bazel
-RUN \
-  cd /opt && \
-  git clone https://github.com/bazelbuild/bazel.git && \
-  cd /opt/bazel && \
-  export PROTOC=/opt/protobuf/src/protoc && \
-  export GRPC_JAVA_PLUGIN=/opt/grpc-java/compiler/build/exe/java_plugin/protoc-gen-grpc-java && \
-  ./compile.sh && \
-  cd /opt/bazel/output && \
-  export PATH=$(pwd):$PATH
+#RUN \
+#  cd /opt && \
+#  git clone https://github.com/bazelbuild/bazel.git && \
+#  cd /opt/bazel && \
+#  export PROTOC=/opt/protobuf/src/protoc && \
+#  export GRPC_JAVA_PLUGIN=/opt/grpc-java/compiler/build/exe/java_plugin/protoc-gen-grpc-java && \
+#  ./compile.sh && \
+#  cd /opt/bazel/output && \
+#  export PATH=$(pwd):$PATH
 
 # Build Tensorflow
-RUN \
-  cd /opt && \
-  git clone https://github.com/PPC64/tensorflow.git && \
+#RUN \
+#  cd /opt && \
+#  git clone https://github.com/PPC64/tensorflow.git && \
 #  cd tensorflow && \
 #  ./configure && \
 #  bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
@@ -180,7 +183,7 @@ COPY scripts/start-h2oai.sh /opt/start-h2oai.sh
 COPY scripts/start-notebook.sh /opt/start-notebook.sh
 COPY scripts/cuda.sh /etc/profile.d/cuda.sh
 COPY scripts/java/sh /etc/profile.d/java.sh
-COPY scripts/bazel.sh /etc/profile.d/bazel.sh
+#COPY scripts/bazel.sh /etc/profile.d/bazel.sh
 
 # Set executable on scripts
 RUN \
