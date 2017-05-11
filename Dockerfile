@@ -90,14 +90,13 @@ RUN \
   cd /opt && \
   git clone --recursive https://github.com/dmlc/xgboost && \
   cd /opt/xgboost && \
-  sed -e 's/-msse2//' -i ./Makefile && \
+  sed -e 's/-msse2//' -i Makefile && \
   cd /opt/xgboost/rabit && \
-  sed -e 's/-msse2//' -i ./Makefile && \
+  sed -e 's/-msse2//' -i Makefile && \
   cd /opt/xgboost/dmlc-core && \
-  sed -e 's/-msse2//' -i ./Makefile && \
+  sed -e 's/-msse2//' -i Makefile && \
   cd /opt/xgboost && \
   make -j4 && \
-  make install && \
   cd python-package && \
   /usr/bin/python3 ./setup.py install
 
@@ -107,7 +106,7 @@ RUN \
   git clone --recursive https://github.com/dmlc/mxnet && \
   cd /opt/mxnet && \
   make -j USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1 && \
-  /usr/bin/pip3 install --upgrade graphviz mxnet
+  /usr/bin/pip3 install --upgrade graphviz
 
 # Build Protobuf
 #RUN \
