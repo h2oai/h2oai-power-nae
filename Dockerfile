@@ -189,7 +189,7 @@ USER nimbix
 
 RUN \
   /usr/bin/pip3 install --upgrade --user /opt/h2oaiglm-0.0.2-py2.py3-none-any.whl && \
-  /usr/bin/pip3 install --upgrade --user /opt/h2o-3.11.0.230-py2.py3-none-any.whl && \
+  /usr/bin/pip3 install --upgrade --user /opt/h2o-3.11.0.320-py2.py3-none-any.whl && \
   rm -f /opt/*.whl
 
 # Nimbix Integrations
